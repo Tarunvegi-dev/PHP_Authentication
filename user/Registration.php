@@ -1,4 +1,8 @@
-<?php include('functions.php') ?>
+<?php include('functions.php');
+if (isLoggedIn()) {
+	header('location: index.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -18,8 +22,8 @@
                 <form onsubmit="return submitForm();" method="POST" action="Registration.php">
                     <h6 style="font-family: Poppins;">Choose your Profile Picture</h6><br />
                     <div class="file-upload">
-                        <input type="file" onchange="handleProfile(this)" />
-                        <img id="profile_img" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="border-radius:75px; margin-bottom:40px; cursor:pointer" width="150" />
+                        <input type="file" name="image" onchange="handleProfile(this)" />
+                        <img id="profile_img" name="profile" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="border-radius:75px; margin-bottom:40px; cursor:pointer" width="150" />
                     </div>
                     <br />
                     <div class="row">
@@ -46,15 +50,16 @@
                     <div class="mb-3 col-sm-4">
                         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
                     </div><br />
-                    <div id="errors">
-                        <?php
-                        if (isset($_SESSION['error'])) {
-                            echo $_SESSION['error'];
-                        }
-                        ?>
+                    <div id="errors" name="errors">
+
                     </div><br />
+                    <?php if (isset($_SESSION['error'])) : ?>
+                        <div class='alert alert-danger' role='alert'>
+                            <strong><?php echo $_SESSION['error']; ?></strong>
+                        </div>
+                    <?php endif ?>
                     <input type="submit" class="btn btn-primary" name="register_btn" style="padding: 10px 50px; border-radius: 25px; margin-bottom:20px"><br />
-                    <br /><span>Already have an account?</span>&nbsp;<a href="../Login/login.php">Login here</a>
+                    <br /><span>Already have an account?</span>&nbsp;<a href="./login.php">Login here</a>
                 </form>
             </center>
         </div>

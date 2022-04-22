@@ -10,36 +10,36 @@ function submitForm() {
     if (firstName.length < 3) {
         error = 'Firstname length should be of minimum 3 characters';
         document.getElementById('firstName').focus();
-        document.getElementById('errors').innerHTML = "<span><strong>Error!</strong> " + error + "</span>"
+        document.getElementById('errors').innerHTML = "<span style='color:red'> " + error + "</span>"
         return false;
     }
     else if (lastName.length < 3) {
         error = 'Lastname length should be of minimum 3 characters';
         document.getElementById('lastName').focus();
-        document.getElementById('errors').innerHTML = "<span><strong>Error!</strong> " + error + "</span>"
+        document.getElementById('errors').innerHTML = "<span style='color:red'> " + error + "</span>"
         return false;
     }
     else if (validateEmail(email) === false) {
         error = 'Enter a valid gmail address';
         document.getElementById('email').focus();
-        document.getElementById('errors').innerHTML = "<span><strong>Error!</strong> " + error + "</span>"
+        document.getElementById('errors').innerHTML = "<span style='color:red'>" + error + "</span>"
         return false;
     }
     else if (validateMobile(mobile) === false) {
         error = 'Enter a valid mobile number';
         document.getElementById('mobile').focus();
-        document.getElementById('errors').innerHTML = "<span><strong>Error!</strong> " + error + "</span>"
+        document.getElementById('errors').innerHTML = "<span style='color:red'>" + error + "</span>"
         return false;
     }
     else if (validatePassword(password) === false) {
         error = 'Enter a valid password <br/> Password needs to have 1 Block letter, 1 Special character and 1 number'
         document.getElementById('password').focus();
-        document.getElementById('errors').innerHTML = "<span><strong>Error!</strong> " + error + "</span>"
+        document.getElementById('errors').innerHTML = "<span style='color:red'>" + error + "</span>"
         return false;
     }
     else {
         error = ''
-        document.getElementById('errors').innerHTML = "<span><strong>Error!</strong> " + error + "</span>"
+        document.getElementById('errors').innerHTML = "<span>" + error + "</span>"
         return true;
     }
 

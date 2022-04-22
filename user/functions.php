@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-$_SESSION['error'] = null;
 // connect to database
 $db = mysqli_connect('localhost', 'root', '', 'multi_login');
 
@@ -11,6 +10,7 @@ $email = "";
 $mobile = "";
 $password = "";
 $gender = "";
+$profile = "";
 
 // call the register() function if register_btn is clicked
 if (isset($_POST['register_btn'])) {
@@ -21,7 +21,7 @@ if (isset($_POST['register_btn'])) {
 function register()
 {
     // call these variables with the global keyword to make them available in function
-    global $db, $lastname, $firstname, $email, $mobile, $password, $gender;
+    global $db, $lastname, $firstname, $email, $mobile, $password, $gender, $profile;
 
     // receive all input values from the form. Call the e() function
     // defined below to escape form values
@@ -31,6 +31,7 @@ function register()
     $mobile = e($_POST['mobile']);
     $password = e($_POST['password']);
     $gender = e($_POST['gender']);
+    $profile = $_POST['image'];
 
     $epassword = md5($password); //encrypt the password before saving in the database
 
@@ -47,29 +48,68 @@ function register()
             $_SESSION['error']  = "User with this email already exists!!";
             header('location: Registration.php');
         } else {
-            $query = "INSERT INTO users (firstname, lastname, email, user_type, password, mobile, gender) 
-                          VALUES('$firstname', '$lastname', '$email',  'user' ,'$epassword', '$mobile', '$gender')";
+            $query = "INSERT INTO users (firstname, lastname, email, user_type, password, mobile, gender, profile) 
+                          VALUES('$firstname', '$lastname', '$email',  'user' ,'$epassword', '$mobile', '$gender', '$profile')";
             mysqli_query($db, $query);
 
-            // get id of the created user
-            $logged_in_user_id = mysqli_insert_id($db);
-
-            $_SESSION['user'] = getUserById($logged_in_user_id); // put logged in user in session
+            $_SESSION['user'] = getUserByEmail($email); // put logged in user in session
             $_SESSION['success']  = "You are now logged in";
             header('location: index.php');
         }
     }
 }
 
-// return user array from their id
-function getUserById($id)
+// escape string
+function e($val)
 {
     global $db;
-    $query = "SELECT * FROM users WHERE id=" . $id;
-    $result = mysqli_query($db, $query);
+    return mysqli_real_escape_string($db, trim($val));
+}
 
-    $user = mysqli_fetch_assoc($result);
-    return $user;
+if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['user']);
+    header("location: login.php");
+}
+
+function isLoggedIn()
+{
+    if (isset($_SESSION['user'])) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// call the login() function if register_btn is clicked
+if (isset($_POST['login_btn'])) {
+    login();
+}
+
+// LOGIN USER
+function login()
+{
+    global $db;
+    // grap form values
+    $email = e($_POST['email']);
+    $password = e($_POST['password']);
+    $password = md5($password);
+
+    $userId = getUserByEmail($email);
+
+
+    $query = "SELECT * FROM users WHERE email='$email' AND password='$password' LIMIT 1";
+    $results = mysqli_query($db, $query);
+
+
+    if (mysqli_num_rows($results)) { // user found
+        $_SESSION['user'] = $userId;
+        $_SESSION['success']  = "You are now logged in";
+        header('location: index.php');
+    } else {
+        $_SESSION['error']  = "Wrong username/password combination";
+    }
+    // }
 }
 
 function getUserByEmail($email)
@@ -80,11 +120,4 @@ function getUserByEmail($email)
 
     $user = mysqli_fetch_assoc($result);
     return $user;
-}
-
-// escape string
-function e($val)
-{
-    global $db;
-    return mysqli_real_escape_string($db, trim($val));
 }
