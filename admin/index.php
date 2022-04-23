@@ -7,93 +7,12 @@ if (!isLoggedIn()) {
 
 <head>
     <title>Admin</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./css/styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="./script.js" type="text/javascript"></script>
+    <script src="./js/script.js" type="text/javascript"></script>
     <script src="https://kit.fontawesome.com/057772d77f.js" crossorigin="anonymous"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-        table {
-            border-collapse: collapse;
-        }
-
-        .inline {
-            display: inline-block;
-            float: right;
-            margin: 20px 0px;
-        }
-
-        input,
-        button {
-            height: 34px;
-        }
-
-        .pagination {
-            display: inline-block;
-        }
-
-        .pagination a {
-            font-weight: bold;
-            font-size: 18px;
-            color: black;
-            float: left;
-            padding: 8px 16px;
-            text-decoration: none;
-            border: 1px solid black;
-        }
-
-        .pagination a.active {
-            background-color: pink;
-        }
-
-        .pagination a:hover:not(.active) {
-            background-color: skyblue;
-        }
-
-        /* Modal styles */
-        .modal .modal-dialog {
-            max-width: 400px;
-        }
-
-        .modal .modal-header,
-        .modal .modal-body,
-        .modal .modal-footer {
-            padding: 20px 30px;
-        }
-
-        .modal .modal-content {
-            border-radius: 3px;
-        }
-
-        .modal .modal-footer {
-            background: #ecf0f1;
-            border-radius: 0 0 3px 3px;
-        }
-
-        .modal .modal-title {
-            display: inline-block;
-        }
-
-        .modal .form-control {
-            border-radius: 2px;
-            box-shadow: none;
-            border-color: #dddddd;
-        }
-
-        .modal textarea.form-control {
-            resize: vertical;
-        }
-
-        .modal .btn {
-            border-radius: 2px;
-            min-width: 100px;
-        }
-
-        .modal form label {
-            font-weight: normal;
-        }
-    </style>
 </head>
 
 <body>
@@ -119,15 +38,14 @@ if (!isLoggedIn()) {
             <br>
             <div>
                 <div class="row">
-                    <h2>Manage <b>Users</b></h2>
+                    <h2 style="font-family: Poppins;">Manage <b>users</b></h2>
                 </div><br />
                 <div class="row">
                     <a href="#addUserModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-add"></i> <span>Add New User</span></a>
                 </div>
                 <br />
                 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names and emails" class="form-control" title="Type in a name"><br /><br />
-                <table id="users" class="table table-striped table-condensed    
-                                          table-bordered">
+                <table id="users" class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
                             <th width="10%">Name</th>
@@ -227,11 +145,11 @@ if (!isLoggedIn()) {
                         </div>
                         <div class="form-group">
                             <label>Mobile</label>
-                            <input class="form-control" id="mobile" name="mobile" required>
+                            <input class="form-control" id="mobile" name="mobile" required maxlength="13">
                         </div><br />
                         <div class="form-group">
                             <select class="form-control" aria-label="Default select example" id="gender" name="gender" required>
-                                <option selected>Gender</option>
+                                <option value="">Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
@@ -242,7 +160,7 @@ if (!isLoggedIn()) {
                         <?php if (isset($_SESSION['error'])) : ?>
                             <div class='alert alert-danger' role='alert'>
                                 <strong><?php echo $_SESSION['error']; ?></strong>
-                                <?php unset($_SESSION['errror'])?>
+                                <?php unset($_SESSION['errror']) ?>
                             </div>
                         <?php endif ?>
                         <div id="errors"></div>
@@ -285,11 +203,11 @@ if (!isLoggedIn()) {
                         </div>
                         <div class="form-group">
                             <label>Mobile</label>
-                            <input class="form-control" id="_mobile" name="_mobile" required>
+                            <input class="form-control" id="_mobile" name="_mobile" required maxlength="13">
                         </div><br />
                         <div class="form-group">
                             <select class="form-control" aria-label="Default select example" id="_gender" name="_gender" required>
-                                <option selected>Gender</option>
+                                <option value="">Gender</option>
                                 <option value="male">Male</option>
                                 <option value="female">Female</option>
                             </select>
@@ -316,7 +234,7 @@ if (!isLoggedIn()) {
                         <h4 class="modal-title">Delete User</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
-                    <input name="umail" type="email" id="umail" readonly hidden/>
+                    <input name="umail" type="email" id="umail" readonly hidden />
                     <div class="modal-body">
                         <p>Are you sure you want to delete these Record?</p>
                         <p class="text-warning"><small>This action cannot be undone.</small></p>

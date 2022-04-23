@@ -27,7 +27,7 @@ function register()
     // defined below to escape form values
     $firstname = e($_POST['firstname']);
     $lastname = e($_POST['lastname']);
-    $email = e($_POST['email']);
+    $email = strtolower($_POST['email']);
     $mobile = e($_POST['mobile']);
     $password = e($_POST['password']);
     $gender = e($_POST['gender']);
@@ -108,7 +108,7 @@ function login()
         $_SESSION['success']  = "You are now logged in";
         header('location: index.php');
     } else {
-        $_SESSION['error']  = "Wrong username/password combination";
+        $_SESSION['login_error']  = "Wrong username/password combination";
     }
     // }
 }

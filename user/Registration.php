@@ -10,8 +10,8 @@ if (isLoggedIn()) {
     <meta charset="UTF-8">
     <title>Registration</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="./styles.css" rel="stylesheet">
-    <script src="./script.js" type="text/javascript"></script>
+    <link href="./css/styles.css" rel="stylesheet">
+    <script src="./js/script.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -23,7 +23,7 @@ if (isLoggedIn()) {
                     <h6 style="font-family: Poppins;">Choose your Profile Picture</h6><br />
                     <div class="file-upload">
                         <img id="profile_img" name="profile" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="cursor:pointer" height="180" width="180" />
-                        <input type="file" name="image" onchange="handleProfile(this)" required />
+                        <input type="file" name="image" onchange="handleProfile(this)" required  accept="image/png, image/jpeg"/>
                     </div>
                     <br />
                     <div class="row">

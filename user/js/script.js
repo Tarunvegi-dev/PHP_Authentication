@@ -70,8 +70,11 @@ function getBase64(file) {
 }
 
 async function handleProfile(uploader) {
+    if(uploader.files[0].size > 2000000) {
+        alert('Profile Image size should be less than 2mb');
+        return;
+    }
     let url = '';
-    console.log(uploader.files[0]);
     await getBase64(uploader.files[0]).then(res => {
         url = res
     })
