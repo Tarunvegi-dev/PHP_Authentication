@@ -22,8 +22,8 @@ if (isLoggedIn()) {
                 <form onsubmit="return submitForm();" method="POST" action="Registration.php">
                     <h6 style="font-family: Poppins;">Choose your Profile Picture</h6><br />
                     <div class="file-upload">
+                        <img id="profile_img" name="profile" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="cursor:pointer" height="200" width="200" />
                         <input type="file" name="image" onchange="handleProfile(this)" required />
-                        <img id="profile_img" name="profile" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="border-radius:75px; margin-bottom:40px; cursor:pointer" width="150" />
                     </div>
                     <br />
                     <div class="row">

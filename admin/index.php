@@ -6,16 +6,13 @@ if (!isLoggedIn()) {
 <html>
 
 <head>
-    <title>Pagination</title>
+    <title>Admin</title>
+    <link rel="stylesheet" href="./styles.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    
-    <script>
-        function go2Page() {
-            var page = document.getElementById("page").value;
-            page = ((page > <?php echo $total_pages; ?>) ? <?php echo $total_pages; ?> : ((page < 1) ? 1 : page));
-            window.location.href = 'index.php?page=' + page;
-        }
-    </script>
+    <script src="./script.js" type="text/javascript"></script>
+    <script src="https://kit.fontawesome.com/057772d77f.js" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style>
         table {
             border-collapse: collapse;
@@ -53,6 +50,49 @@ if (!isLoggedIn()) {
         .pagination a:hover:not(.active) {
             background-color: skyblue;
         }
+
+        /* Modal styles */
+        .modal .modal-dialog {
+            max-width: 400px;
+        }
+
+        .modal .modal-header,
+        .modal .modal-body,
+        .modal .modal-footer {
+            padding: 20px 30px;
+        }
+
+        .modal .modal-content {
+            border-radius: 3px;
+        }
+
+        .modal .modal-footer {
+            background: #ecf0f1;
+            border-radius: 0 0 3px 3px;
+        }
+
+        .modal .modal-title {
+            display: inline-block;
+        }
+
+        .modal .form-control {
+            border-radius: 2px;
+            box-shadow: none;
+            border-color: #dddddd;
+        }
+
+        .modal textarea.form-control {
+            resize: vertical;
+        }
+
+        .modal .btn {
+            border-radius: 2px;
+            min-width: 100px;
+        }
+
+        .modal form label {
+            font-weight: normal;
+        }
     </style>
 </head>
 
@@ -78,8 +118,14 @@ if (!isLoggedIn()) {
         <div class="container">
             <br>
             <div>
-                <h3>MANAGE USERS</h3><br />
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name"><br/><br/>
+                <div class="row">
+                    <h2>Manage <b>Users</b></h2>
+                </div><br />
+                <div class="row">
+                    <a href="#addUserModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-add"></i> <span>Add New User</span></a>
+                </div>
+                <br />
+                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names and emails" class="form-control" title="Type in a name"><br /><br />
                 <table id="users" class="table table-striped table-condensed    
                                           table-bordered">
                     <thead>
@@ -88,6 +134,7 @@ if (!isLoggedIn()) {
                             <th>Email</th>
                             <th>Mobile</th>
                             <th>Gender</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -97,9 +144,15 @@ if (!isLoggedIn()) {
                         ?>
                             <tr>
                                 <td><?php echo $row["firstname"]; ?></td>
-                                <td><?php echo $row["email"]; ?></td>
+                                <td name="email"><?php echo $row["email"]; ?></td>
                                 <td><?php echo $row["mobile"]; ?></td>
                                 <td><?php echo $row["gender"]; ?></td>
+                                <td>
+                                    <center>
+                                        <a href="#editUserModal" onclick="editProfile('<?php echo $row['email'] ?>')" data-toggle="modal"><i class="fa-solid fa-pen-to-square" style="cursor:pointer"></i></a>&nbsp;&nbsp;
+                                        <a href="#deleteUserModal" onclick="deleteProfile('<?php echo $row['email'] ?>')" data-toggle="modal"><i style="cursor:pointer" class="fa fa-trash"></i></a>
+                                    </center>
+                                </td>
                             </tr>
                         <?php
                         };
@@ -144,6 +197,138 @@ if (!isLoggedIn()) {
             </div>
         </div>
     </center>
+    <!-- Add Modal HTML -->
+    <div id="addUserModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" action="index.php" onsubmit="return submitForm();">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add User</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <center>
+                            <div class="file-upload">
+                                <input type="file" name="image" onchange="handleProfile(this)" required />
+                                <img id="profile_img" name="profile" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="margin-bottom:40px; cursor:pointer" width="150" />
+                            </div>
+                        </center>
+                        <div class="form-group">
+                            <label>firstname</label>
+                            <input type="text" id="firstName" name="firstname" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>lastname</label>
+                            <input type="text" id="lastName" name="lastname" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile</label>
+                            <input class="form-control" id="mobile" name="mobile" required>
+                        </div><br />
+                        <div class="form-group">
+                            <select class="form-control" aria-label="Default select example" id="gender" name="gender" required>
+                                <option selected>Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div><br />
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                        </div><br />
+                        <?php if (isset($_SESSION['error'])) : ?>
+                            <div class='alert alert-danger' role='alert'>
+                                <strong><?php echo $_SESSION['error']; ?></strong>
+                                <?php unset($_SESSION['errror'])?>
+                            </div>
+                        <?php endif ?>
+                        <div id="errors"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-success" value="Add" name="add_user">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Edit Modal HTML -->
+    <div id="editUserModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="post" action="index.php" onsubmit="return validateForm()">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit User</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <center>
+                            <div class="file-upload">
+                                <input type="file" name="_image" onchange="handleProfileImage(this)" required />
+                                <img id="profile_image" name="profile" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="margin-bottom:40px; cursor:pointer" width="150" />
+                            </div>
+                        </center>
+                        <div class="form-group">
+                            <label>firstname</label>
+                            <input type="text" id="first_Name" name="first_name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>lastname</label>
+                            <input type="text" id="last_Name" name="last_name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label>email</label>
+                            <input type="email" id="_email" name="_email" class="form-control" required readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Mobile</label>
+                            <input class="form-control" id="_mobile" name="_mobile" required>
+                        </div><br />
+                        <div class="form-group">
+                            <select class="form-control" aria-label="Default select example" id="_gender" name="_gender" required>
+                                <option selected>Gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div><br />
+                        <div class="form-group">
+                            <input type="password" class="form-control" id="_password" name="_password" placeholder="Password" required>
+                        </div><br />
+                        <div id="error"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-info" value="Save" name="edit_user">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Modal HTML -->
+    <div id="deleteUserModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form method="POST" action="index.php">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Delete User</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <input name="umail" type="email" id="umail" readonly hidden/>
+                    <div class="modal-body">
+                        <p>Are you sure you want to delete these Record?</p>
+                        <p class="text-warning"><small>This action cannot be undone.</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-danger" name="delete_user" value="Delete">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <script>
         function myFunction() {
             var input, filter, table, tr, td, i, txtValue;
@@ -153,9 +338,7 @@ if (!isLoggedIn()) {
             tr = table.getElementsByTagName("tr");
             for (i = 0; i < tr.length; i++) {
                 td = tr[i].getElementsByTagName("td")[0];
-                td1 = tr[i].getElementsByTagName("td")[1];
-                td2 = tr[i].getElementsByTagName("td")[2];
-                if (td1) {
+                if (td) {
                     txtValue = td.textContent || td.innerText;
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
                         tr[i].style.display = "";
@@ -163,23 +346,32 @@ if (!isLoggedIn()) {
                         tr[i].style.display = "none";
                     }
                 }
-                else if (td1) {
+            }
+            for (j = 0; j < tr.length; j++) {
+                td1 = tr[j].getElementsByTagName("td")[1];
+                if (td1) {
                     txtValue = td1.textContent || td1.innerText;
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
+                        tr[j].style.display = "";
                     } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-                else if (td2) {
-                    txtValue = td2.textContent || td2.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
+                        tr[j].style.display = "none";
                     }
                 }
             }
+        }
+
+        function editProfile(email) {
+            document.getElementById('_email').value = email
+        }
+
+        function deleteProfile(email) {
+            document.getElementById('umail').value = email
+        }
+
+        function go2Page() {
+            var page = document.getElementById("page").value;
+            page = ((page > <?php echo $total_pages; ?>) ? <?php echo $total_pages; ?> : ((page < 1) ? 1 : page));
+            window.location.href = 'index.php?page=' + page;
         }
     </script>
 </body>
