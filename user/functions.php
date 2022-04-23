@@ -54,7 +54,8 @@ function register()
 
             $_SESSION['user'] = getUserByEmail($email); // put logged in user in session
             $_SESSION['success']  = "You are now logged in";
-            header('location: index.php');
+            sendMail($firstname, $lastname, $email);
+            header('location: index.php');  
         }
     }
 }
@@ -120,4 +121,13 @@ function getUserByEmail($email)
 
     $user = mysqli_fetch_assoc($result);
     return $user;
+}
+
+
+function sendMail($firstname, $lastname, $email)
+{
+    $full_name = $firstname . $lastname;
+    $sub = "Welcome Note!";
+    $message = "Hi " . $full_name . ",\n\n\nYou have successfully registered and you can now sign-in using with your mail " . "( " . $email . " )\n\n\nThank You!";
+    mail($email, $sub, $message);
 }

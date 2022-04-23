@@ -16,10 +16,10 @@
             <center>
                 <form method="post" action="login.php"">
                     <div class="mb-3 col-sm-4">
-                        <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="Email address">
+                        <input type="email" name="email" class="form-control" id="exampleFormControlInput1" placeholder="Email address" required>
                     </div>
                     <div class="mb-3 col-sm-4">
-                        <input type="password" name="password" class="form-control" id="exampleFormControlInput1" placeholder="Password">
+                        <input type="password" name="password" class="form-control" id="exampleFormControlInput1" placeholder="Password" required>
                     </div><br />
                     <button class="btn btn-primary" name="login_btn">Login</button><br /><br />
                     <span>Don't have an account?&nbsp;<a href="./Registration.php">Sign up here</a></span><br/><br/>

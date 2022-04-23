@@ -22,33 +22,33 @@ if (isLoggedIn()) {
                 <form onsubmit="return submitForm();" method="POST" action="Registration.php">
                     <h6 style="font-family: Poppins;">Choose your Profile Picture</h6><br />
                     <div class="file-upload">
-                        <input type="file" name="image" onchange="handleProfile(this)" />
+                        <input type="file" name="image" onchange="handleProfile(this)" required />
                         <img id="profile_img" name="profile" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="border-radius:75px; margin-bottom:40px; cursor:pointer" width="150" />
                     </div>
                     <br />
                     <div class="row">
                         <div class="col-sm-3 offset-sm-3">
-                            <input type="text" class="form-control" name="firstname" id="firstName" placeholder="First Name">
+                            <input type="text" class="form-control" name="firstname" id="firstName" placeholder="First Name" required>
                         </div>
                         <div class="col-sm-3">
-                            <input type="text" class="form-control" name="lastname" id="lastName" placeholder="Last Name">
+                            <input type="text" class="form-control" name="lastname" id="lastName" placeholder="Last Name" required>
                         </div>
                     </div><br />
                     <div class="mb-3 col-sm-4">
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Email address">
+                        <input type="email" class="form-control" name="email" id="email" placeholder="Email address" required>
                     </div>
                     <div class="mb-3 col-sm-4">
-                        <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Mobile Number">
+                        <input type="text" class="form-control" name="mobile" id="mobile" placeholder="Mobile Number" maxlength="13" required>
                     </div>
                     <div class="col-sm-4">
-                        <select class="form-select" aria-label="Default select example" id="gender" name="gender">
+                        <select class="form-select" aria-label="Default select example" id="gender" name="gender" required>
                             <option selected>Gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
                         </select>
                     </div><br />
                     <div class="mb-3 col-sm-4">
-                        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+                        <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
                     </div><br />
                     <div id="errors" name="errors">
 
