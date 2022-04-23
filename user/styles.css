@@ -11,8 +11,8 @@
 
 
 .file-upload{
-    height: 200px;
-    width: 200px;
+    height: 180px;
+    width: 180px;
     position:relative;
     
     display:flex;
@@ -26,7 +26,6 @@
     transition: all 1s;
     color: #FFFFFF;
     font-size:100px;
-    border-radius: 75px;
 }
 
 input[type='file'] {
