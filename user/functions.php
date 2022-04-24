@@ -127,7 +127,7 @@ function getUserByEmail($email)
 function sendMail($firstname, $lastname, $email)
 {
     $full_name = $firstname . $lastname;
-    $sub = "Welcome Note!";
-    $message = "Hi " . $full_name . ",\n\n\nYou have successfully registered and you can now sign-in using with your mail " . "( " . $email . " )\n\n\nThank You!";
+    $sub = "Welcome";
+    $message = "Hi " . $full_name . ",\n\n\nYou have successfully registered in Edgroom demo app and you can now sign-in using with your mail " . "( " . $email . " )\n\n\nThank You!";
     mail($email, $sub, $message);
 }

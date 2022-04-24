@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 24, 2022 at 01:02 AM
+-- Generation Time: Apr 24, 2022 at 10:14 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.3.33
 
@@ -44,8 +44,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`firstname`, `lastname`, `email`, `user_type`, `password`, `mobile`, `gender`, `profile`) VALUES
 ('Tarun', 'Vegi', 'vegitarun1234@gmail.com', 'user', 'b085d8f83c3a75e515b8fb10d88838cf', '+916300145448', 'male', 0x69726f6e6d616e2e6a7067),
-('Chaitanya', 'laxmi', 'chaitanyalaxmimalla@gmail.com', 'user', 'b085d8f83c3a75e515b8fb10d88838cf', '+916302607131', 'female', 0x64656164706f6f6c2e6a7067),
-('Roop', 'Chandu', 'roopchandupachigolla@gmail.com', 'user', '5276b0dbe7143f52fbddf86db224ea99', '+918106714802', 'male', 0x64656164706f6f6c2e6a7067);
+('Firstname', 'Lastname', 'example@gmail.com', 'user', 'f925916e2754e5e03f75dd58a5733251', '+919999988777', 'male', 0x69726f6e6d616e2e6a7067);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
