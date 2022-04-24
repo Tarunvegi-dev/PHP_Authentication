@@ -28,6 +28,12 @@ function isLoggedIn()
     }
 }
 
+if (isset($_GET['logout'])) {
+    session_destroy();
+    unset($_SESSION['admin']);
+    header("location: login.php");
+}
+
 $db = mysqli_connect('localhost', 'root', '', 'multi_login');
 
 if (isset($_POST['add_user'])) {

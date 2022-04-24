@@ -31,7 +31,7 @@ if (!isLoggedIn()) {
 				<h2 style="margin-top: 200px; font-family: Poppins;">WELCOME</h2>
 				<?php if (isset($_SESSION['user'])) : ?>
 					<br />
-					<h1 style="font-family: Montserrat; font-size:80px; text-transform: capitalize;"><?php echo $_SESSION['user']['firstname'];
+					<h1 style="font-family: Poppins; font-size:80px; text-transform: capitalize;"><?php echo $_SESSION['user']['firstname'];
 																										echo "    ";
 																										echo $_SESSION['user']['lastname'] ?></h1><br /><br />
 					<strong style="font-family: Poppins; font-size:30px"><i class="fa-solid fa-envelope"></i> &nbsp;<?php echo $_SESSION['user']['email']; ?></strong><br /><br />

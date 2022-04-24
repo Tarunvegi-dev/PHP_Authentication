@@ -41,14 +41,16 @@ if (!isLoggedIn()) {
                     <h2 style="font-family: Poppins;">Manage <b>users</b></h2>
                 </div><br />
                 <div class="row">
-                    <a href="#addUserModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-add"></i> <span>Add New User</span></a>
+                    <a href="#addUserModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-add"></i> <span>Add New User</span></a>&nbsp;&nbsp;&nbsp;
+                    <a href="index.php?logout='1'" class="btn btn-danger"><i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp;LOGOUT</a>
                 </div>
                 <br />
                 <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names and emails" class="form-control" title="Type in a name"><br /><br />
                 <table id="users" class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th width="10%">Name</th>
+                            <th width="10%">First Name</th>
+                            <th>Last Name</th>
                             <th>Email</th>
                             <th>Mobile</th>
                             <th>Gender</th>
@@ -62,6 +64,7 @@ if (!isLoggedIn()) {
                         ?>
                             <tr>
                                 <td><?php echo $row["firstname"]; ?></td>
+                                <td><?php echo $row["lastname"]; ?></td>
                                 <td name="email"><?php echo $row["email"]; ?></td>
                                 <td><?php echo $row["mobile"]; ?></td>
                                 <td><?php echo $row["gender"]; ?></td>
