@@ -121,6 +121,10 @@ function getBase64(file) {
 }
 
 async function handleProfile(uploader) {
+    if(uploader.files[0].size > 2000000) {
+        alert('Profile Image should be less than 2mb')
+        return;
+    }
     let url = '';
     await getBase64(uploader.files[0]).then(res => {
         url = res
@@ -129,6 +133,10 @@ async function handleProfile(uploader) {
 }
 
 async function handleProfileImage(uploader) {
+    if(uploader.files[0].size > 2000000) {
+        alert('Profile Image should be less than 2mb')
+        return;
+    }
     let url = '';
     await getBase64(uploader.files[0]).then(res => {
         url = res
