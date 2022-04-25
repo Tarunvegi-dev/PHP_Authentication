@@ -1,0 +1,19 @@
+===Database multi_login
+
+== Table structure for table users
+
+|------
+|Column|Type|Null|Default
+|------
+|firstname|varchar(100)|No|
+|lastname|varchar(100)|No|
+|email|varchar(100)|No|
+|user_type|varchar(100)|No|
+|password|varchar(100)|No|
+|mobile|varchar(20)|No|
+|gender|varchar(100)|No|
+|profile|longblob|No|
+== Dumping data for table users
+
+|Tarun|Vegi|vegitarun1234@gmail.com|user|b085d8f83c3a75e515b8fb10d88838cf|+916300145448|male|ironman.jpg
+|Edgroom|Demo|edgroomdemo@gmail.com|user|1114b639c6375085ac86548f6ee8d46c|+916300145448|male|deadpool.jpg

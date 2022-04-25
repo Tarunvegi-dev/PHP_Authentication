@@ -35,28 +35,19 @@ function register()
 
     $epassword = md5($password); //encrypt the password before saving in the database
 
-    if (isset($_POST['user_type'])) {
-        $user_type = e($_POST['user_type']);
-        $query = "INSERT INTO users (firstname, lastname, email, user_type, password, mobile, gender) 
-					  VALUES('$firstname', '$lastname', '$email',  '$user_type' ,'$epassword', '$mobile', '$gender')";
-        mysqli_query($db, $query);
-        $_SESSION['success']  = "New user successfully created!!";
-        header('location: home.php');
+    $userId = getUserByEmail($email);
+    if (isset($userId)) {
+        $_SESSION['error']  = "User with this email already exists!!";
+        header('location: Registration.php');
     } else {
-        $userId = getUserByEmail($email);
-        if (isset($userId)) {
-            $_SESSION['error']  = "User with this email already exists!!";
-            header('location: Registration.php');
-        } else {
-            $query = "INSERT INTO users (firstname, lastname, email, user_type, password, mobile, gender, profile) 
+        $query = "INSERT INTO users (firstname, lastname, email, user_type, password, mobile, gender, profile) 
                           VALUES('$firstname', '$lastname', '$email',  'user' ,'$epassword', '$mobile', '$gender', '$profile')";
-            mysqli_query($db, $query);
+        mysqli_query($db, $query);
 
-            $_SESSION['user'] = getUserByEmail($email); // put logged in user in session
-            $_SESSION['success']  = "You are now logged in";
-            sendMail($firstname, $lastname, $email);
-            header('location: index.php');  
-        }
+        $_SESSION['user'] = getUserByEmail($email); // put logged in user in session
+        $_SESSION['success']  = "You are now logged in";
+        sendMail($firstname, $lastname, $email);
+        header('location: index.php');
     }
 }
 
