@@ -20,7 +20,7 @@ function submitForm() {
         return false;
     }
     else if (validateEmail(email) === false) {
-        error = 'Enter a valid gmail address';
+        error = 'Email address is incorrect';
         document.getElementById('email').focus();
         document.getElementById('errors').innerHTML = "<span style='color:red'>" + error + "</span>"
         return false;

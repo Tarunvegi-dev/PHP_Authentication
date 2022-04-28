@@ -54,14 +54,13 @@ function register()
     $gender = e($_POST['gender']);
     $profile = $_POST['image'];
 
-    $epassword = md5($password); //encrypt the password before saving in the database
-
     $userId = getUserByEmail($email);
     if (isset($userId)) {
         $_SESSION['error']  = "User with this email already exists!!";
+        echo "<script>alert('User with this email already exists!!')</script>";
     } else {
         $query = "INSERT INTO users (firstname, lastname, email, user_type, password, mobile, gender, profile) 
-                          VALUES('$firstname', '$lastname', '$email',  'user' ,'$epassword', '$mobile', '$gender', '$profile')";
+                          VALUES('$firstname', '$lastname', '$email',  'user' ,'$password', '$mobile', '$gender', '$profile')";
         mysqli_query($db, $query);
     }
 }
@@ -84,13 +83,11 @@ function update()
     $_profile = $_POST['_image'];
     $_email = $_POST['_email'];
 
-    $epassword = md5($_password); //encrypt the password before saving in the database
-
     $query = "UPDATE users SET 
     firstname = '$first_name', 
     lastname = '$last_name', 
     user_type = 'user',
-    password = '$epassword', 
+    password = '$_password', 
     mobile = '$_mobile', 
     gender = '$_gender',
     profile = '$_profile'

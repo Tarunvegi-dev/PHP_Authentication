@@ -11,6 +11,7 @@ $mobile = "";
 $password = "";
 $gender = "";
 $profile = "";
+$_SESSION['error'] = '';
 
 // call the register() function if register_btn is clicked
 if (isset($_POST['register_btn'])) {
@@ -33,21 +34,22 @@ function register()
     $gender = e($_POST['gender']);
     $profile = $_POST['image'];
 
-    $epassword = md5($password); //encrypt the password before saving in the database
-
     $userId = getUserByEmail($email);
     if (isset($userId)) {
         $_SESSION['error']  = "User with this email already exists!!";
-        header('location: Registration.php');
+        echo '<script>alert("User with this email already exists!!")</script>';
+        unset($_SESSION['error']);
     } else {
         $query = "INSERT INTO users (firstname, lastname, email, user_type, password, mobile, gender, profile) 
-                          VALUES('$firstname', '$lastname', '$email',  'user' ,'$epassword', '$mobile', '$gender', '$profile')";
+                          VALUES('$firstname', '$lastname', '$email',  'user' ,'$password', '$mobile', '$gender', '$profile')";
         mysqli_query($db, $query);
 
         $_SESSION['user'] = getUserByEmail($email); // put logged in user in session
         $_SESSION['success']  = "You are now logged in";
         sendMail($firstname, $lastname, $email);
         header('location: index.php');
+        echo '<script>alert("Registration Successful")</script>';
+        
     }
 }
 
@@ -85,21 +87,19 @@ function login()
     // grap form values
     $email = e($_POST['email']);
     $password = e($_POST['password']);
-    $password = md5($password);
 
     $userId = getUserByEmail($email);
 
 
     $query = "SELECT * FROM users WHERE email='$email' AND password='$password' LIMIT 1";
-    $results = mysqli_query($db, $query);
-
+    $results = mysqli_query($db, $query);   
 
     if (mysqli_num_rows($results)) { // user found
         $_SESSION['user'] = $userId;
         $_SESSION['success']  = "You are now logged in";
         header('location: index.php');
     } else {
-        $_SESSION['login_error']  = "Wrong username/password combination";
+        $_SESSION['login_error']  = "Wrong Email/password combination";
     }
     // }
 }

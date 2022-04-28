@@ -44,13 +44,22 @@ if (!isLoggedIn()) {
                     <a href="#addUserModal" class="btn btn-success" data-toggle="modal"><i class="fa fa-add"></i> <span>Add New User</span></a>&nbsp;&nbsp;&nbsp;
                     <a href="index.php?logout='1'" class="btn btn-danger"><i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp;LOGOUT</a>
                 </div>
-                <br />
-                <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search for names and emails" class="form-control" title="Type in a name"><br /><br />
+                <br /><br />
+                <div style="margin-bottom: 80px; padding-bottom:60px; padding-top: 20px; background: #000000; border-radius: 10px;">
+                    <div class="col-sm-4">
+                        <input type="text" style="padding: 20px;" id="nameKey" onkeyup="searchName()" placeholder="Search for names" class="form-control col-sm-4"><br /><br />
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" style="padding: 20px;" id="emailKey" onkeyup="searchEmail()" placeholder="Search for emails" class="form-control col-sm-4"><br /><br />
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" style="padding: 20px;" id="phoneKey" onkeyup="searchMobile()" placeholder="Search for mobile numbers" class="form-control col-sm-4"><br /><br />
+                    </div>
+                </div>
                 <table id="users" class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th width="10%">First Name</th>
-                            <th>Last Name</th>
+                            <th width="10%">Full Name</th>
                             <th>Email</th>
                             <th>Mobile</th>
                             <th>Gender</th>
@@ -63,14 +72,13 @@ if (!isLoggedIn()) {
                             // Display each field of the records.    
                         ?>
                             <tr>
-                                <td><?php echo $row["firstname"]; ?></td>
-                                <td><?php echo $row["lastname"]; ?></td>
+                                <td><?php echo $row["firstname"];  echo " ";  echo $row['lastname'] ?></td>
                                 <td name="email"><?php echo $row["email"]; ?></td>
                                 <td><?php echo $row["mobile"]; ?></td>
                                 <td><?php echo $row["gender"]; ?></td>
                                 <td>
                                     <center>
-                                        <a href="#editUserModal" onclick="editProfile('<?php echo $row['email'] ?>')" data-toggle="modal"><i class="fa-solid fa-pen-to-square" style="cursor:pointer"></i></a>&nbsp;&nbsp;
+                                        <a href="#editUserModal" onclick="editProfile('<?php echo $row['firstname']; ?>', '<?php echo $row['lastname']; ?>', '<?php echo $row['email']; ?>', '<?php echo $row['mobile']; ?>', '<?php echo $row['gender']; ?>', '<?php echo $row['password']; ?>')" data-toggle="modal"><i class="fa-solid fa-pen-to-square" style="cursor:pointer"></i></a>&nbsp;&nbsp;
                                         <a href="#deleteUserModal" onclick="deleteProfile('<?php echo $row['email'] ?>')" data-toggle="modal"><i style="cursor:pointer" class="fa fa-trash"></i></a>
                                     </center>
                                 </td>
@@ -216,7 +224,7 @@ if (!isLoggedIn()) {
                             </select>
                         </div><br />
                         <div class="form-group">
-                            <input type="password" class="form-control" id="_password" name="_password" placeholder="Password" required>
+                            <input type="text" class="form-control" id="_password" name="_password" placeholder="Password" required>
                         </div><br />
                         <div id="error"></div>
                     </div>
@@ -251,9 +259,9 @@ if (!isLoggedIn()) {
         </div>
     </div>
     <script>
-        function myFunction() {
+        function searchName() {
             var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("myInput");
+            input = document.getElementById("nameKey");
             filter = input.value.toUpperCase();
             table = document.getElementById("users");
             tr = table.getElementsByTagName("tr");
@@ -268,21 +276,53 @@ if (!isLoggedIn()) {
                     }
                 }
             }
-            for (j = 0; j < tr.length; j++) {
-                td1 = tr[j].getElementsByTagName("td")[1];
-                if (td1) {
-                    txtValue = td1.textContent || td1.innerText;
+        }
+
+        function searchEmail() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("emailKey");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("users");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[j].style.display = "";
+                        tr[i].style.display = "";
                     } else {
-                        tr[j].style.display = "none";
+                        tr[i].style.display = "none";
                     }
                 }
             }
         }
 
-        function editProfile(email) {
+        function searchMobile() {
+            var input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("phoneKey");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("users");
+            tr = table.getElementsByTagName("tr");
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[2];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+
+        function editProfile(firstname, lastname, email, mobile, gender, password) {
+            document.getElementById('first_Name').value = firstname
+            document.getElementById('last_Name').value = lastname
             document.getElementById('_email').value = email
+            document.getElementById('_mobile').value = mobile
+            document.getElementById('_gender').value = gender
+            document.getElementById('_password').value = password
         }
 
         function deleteProfile(email) {

@@ -16,16 +16,16 @@ if (isLoggedIn()) {
 <body>
     <div class="container login" style="margin-top: 100px;">
         <div class="card" style="padding: 40px;">
-            <h3 class="title" style="text-align: center; font-family: Poppins;">ADMIN LOGIN</h3><br />
+            <h3 class="title" style="text-align: center; font-family: Montserrat; font-weight:600">ADMIN LOGIN</h3><br />
             <center>
                 <form method="post" action="login.php">
                     <div class="mb-3 col-sm-4">
-                        <input type="text" name="username" class="form-control" id="exampleFormControlInput1" placeholder="Username" required>
+                        <input type="text" style="padding: 25px; margin-bottom:25px; font-size: 18px; font-family:'Poppins';" name="username" class="form-control" placeholder="username" required>
                     </div>
                     <div class="mb-3 col-sm-4">
-                        <input type="password" name="password" class="form-control" id="exampleFormControlInput1" placeholder="Password" required>
+                        <input type="password" style="padding: 25px; font-size: 18px; font-family:'Poppins';" name="password" class="form-control" id="exampleFormControlInput1" placeholder="Password" required>
                     </div><br />
-                    <button class="btn btn-primary" name="login_btn">Login</button><br /><br />
+                    <input class="btn btn-success" type="submit" name="login_btn" style="width:100px; padding-top:8px; padding-bottom:30px" value="Login" /><br /><br />
                     <?php
                     if (isset($_SESSION['error'])) {
                         echo "<div class='alert alert-danger'>" . $_SESSION['error'] . "</div>";

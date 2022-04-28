@@ -2,7 +2,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Poppins&display=swap');
 
 .Registration .title {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 30px;
+    font-weight: 600;
+    color: #2c2c2c;
+    margin-bottom: 50px;
+}
+
+.login .title {
+    font-family: 'Montserrat', sans-serif;
     font-size: 30px;
     font-weight: 600;
     color: #2c2c2c;
@@ -41,4 +49,5 @@ input[type='file'] {
 .form-control {
     border-radius: 10px;
     padding: 10px;
+    font-family: 'Poppins';
 }
