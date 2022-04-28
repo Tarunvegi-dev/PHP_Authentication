@@ -43,28 +43,34 @@ if (isset($_POST['add_user'])) {
 // REGISTER USER
 function register()
 {
-    global $db;
+    // call these variables with the global keyword to make them available in function
+    global $db, $lastname, $firstname, $email, $mobile, $password, $gender, $profile;
 
-    // receive all input values from the form.
+    // receive all input values from the form. Call the e() function
+    // defined below to escape form values
     $firstname = e($_POST['firstname']);
     $lastname = e($_POST['lastname']);
-    $email = e($_POST['email']);
+    $email = strtolower($_POST['email']);
     $mobile = e($_POST['mobile']);
     $password = e($_POST['password']);
     $gender = e($_POST['gender']);
-    $profile = $_POST['image'];
+    $profile = addslashes(file_get_contents($_FILES['image']['tmp_name']));
 
     $userId = getUserByEmail($email);
     if (isset($userId)) {
         $_SESSION['error']  = "User with this email already exists!!";
-        echo "<script>alert('User with this email already exists!!')</script>";
+        echo '<script>alert("User with this email already exists!!")</script>';
+        unset($_SESSION['error']);
     } else {
         $query = "INSERT INTO users (firstname, lastname, email, user_type, password, mobile, gender, profile) 
                           VALUES('$firstname', '$lastname', '$email',  'user' ,'$password', '$mobile', '$gender', '$profile')";
         mysqli_query($db, $query);
+
+        $_SESSION['user'] = getUserByEmail($email); // put logged in user in session
+        $_SESSION['success']  = "You are now logged in";
+        echo '<script>alert("Registration Successful")</script>';
     }
 }
-
 if (isset($_POST['edit_user'])) {
     update();
 }
@@ -80,10 +86,18 @@ function update()
     $_mobile = e($_POST['_mobile']);
     $_password = e($_POST['_password']);
     $_gender = e($_POST['_gender']);
-    $_profile = $_POST['_image'];
     $_email = $_POST['_email'];
+    $_profile = "";
+    if (
+        !empty($_FILES['image']['tmp_name'])
+        && file_exists($_FILES['image']['tmp_name'])
+    ) {
+        $_profile = addslashes(file_get_contents($_FILES['image']['tmp_name']));
+    }
 
-    $query = "UPDATE users SET 
+    $query = "";
+    if ($_profile != "") {
+        $query = "UPDATE users SET 
     firstname = '$first_name', 
     lastname = '$last_name', 
     user_type = 'user',
@@ -92,20 +106,30 @@ function update()
     gender = '$_gender',
     profile = '$_profile'
      WHERE email='$_email'";
+    } else {
+        $query = "UPDATE users SET 
+    firstname = '$first_name', 
+    lastname = '$last_name', 
+    user_type = 'user',
+    password = '$_password', 
+    mobile = '$_mobile', 
+    gender = '$_gender'
+     WHERE email='$_email'";
+    }
 
     mysqli_query($db, $query);
-
 }
 
 if (isset($_POST['delete_user'])) {
     delete();
 }
 
-function delete() {
+function delete()
+{
     global $db;
 
     $umail = $_POST['umail'];
-    
+
     $query = "DELETE FROM users WHERE email='$umail'";
     mysqli_query($db, $query);
 }

@@ -28,9 +28,10 @@ if (!isLoggedIn()) {
         }
 
         $start_from = ($page - 1) * $per_page_record;
-
+        $_SESSION['sort'] = 'firstname';
+        $sort = $_SESSION['sort'];
         $db = mysqli_connect('localhost', 'root', '', 'multi_login');
-        $query = "SELECT * FROM users LIMIT $start_from, $per_page_record";
+        $query = "SELECT * FROM users  ORDER BY $sort LIMIT $start_from, $per_page_record";
         $rs_result = mysqli_query($db, $query);
         ?>
 
@@ -46,14 +47,22 @@ if (!isLoggedIn()) {
                 </div>
                 <br /><br />
                 <div style="margin-bottom: 80px; padding-bottom:60px; padding-top: 20px; background: #000000; border-radius: 10px;">
-                    <div class="col-sm-4">
-                        <input type="text" style="padding: 20px;" id="nameKey" onkeyup="searchName()" placeholder="Search for names" class="form-control col-sm-4"><br /><br />
+                    <div class="col-sm-3">
+                        <input type="text" id="nameKey" onkeyup="search(this, 0)" placeholder="Search for names" class="form-control col-sm-3"><br /><br />
                     </div>
-                    <div class="col-sm-4">
-                        <input type="text" style="padding: 20px;" id="emailKey" onkeyup="searchEmail()" placeholder="Search for emails" class="form-control col-sm-4"><br /><br />
+                    <div class="col-sm-3">
+                        <input type="text" id="emailKey" onkeyup="search(this, 1)" placeholder="Search for emails" class="form-control col-sm-3"><br /><br />
                     </div>
-                    <div class="col-sm-4">
-                        <input type="text" style="padding: 20px;" id="phoneKey" onkeyup="searchMobile()" placeholder="Search for mobile numbers" class="form-control col-sm-4"><br /><br />
+                    <div class="col-sm-3">
+                        <input type="text" id="phoneKey" onkeyup="search(this, 2)" placeholder="Search for mobile numbers" class="form-control col-sm-3"><br /><br />
+                    </div>
+                    <div class="col-sm-3">
+                        <select class="form-control col-sm-3">
+                            <option>Sort by</option>
+                            <option>Full name</option>
+                            <option>Email</option>
+                            <option>Mobile</option>
+                        </select>
                     </div>
                 </div>
                 <table id="users" class="table table-striped table-hover table-bordered">
@@ -72,7 +81,9 @@ if (!isLoggedIn()) {
                             // Display each field of the records.    
                         ?>
                             <tr>
-                                <td><?php echo $row["firstname"];  echo " ";  echo $row['lastname'] ?></td>
+                                <td><?php echo $row["firstname"];
+                                    echo " ";
+                                    echo $row['lastname'] ?></td>
                                 <td name="email"><?php echo $row["email"]; ?></td>
                                 <td><?php echo $row["mobile"]; ?></td>
                                 <td><?php echo $row["gender"]; ?></td>
@@ -130,7 +141,7 @@ if (!isLoggedIn()) {
     <div id="addUserModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="post" action="index.php" onsubmit="return submitForm();">
+                <form method="post" action="index.php" onsubmit="return submitForm();" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h4 class="modal-title">Add User</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -188,7 +199,7 @@ if (!isLoggedIn()) {
     <div id="editUserModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form method="post" action="index.php" onsubmit="return validateForm()">
+                <form method="post" action="index.php" onsubmit="return validateForm()" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h4 class="modal-title">Edit User</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -196,7 +207,7 @@ if (!isLoggedIn()) {
                     <div class="modal-body">
                         <center>
                             <div class="file-upload">
-                                <input type="file" name="_image" onchange="handleProfileImage(this)" required />
+                                <input type="file" name="_image" onchange="handleProfileImage(this)" />
                                 <img id="profile_image" name="profile" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="margin-bottom:40px; cursor:pointer" width="150" />
                             </div>
                         </center>
@@ -259,52 +270,13 @@ if (!isLoggedIn()) {
         </div>
     </div>
     <script>
-        function searchName() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("nameKey");
-            filter = input.value.toUpperCase();
+        function search(input, index) {
+            var filter, table, tr, td, i, txtValue;
+            filter = input.target.value.toUpperCase();
             table = document.getElementById("users");
             tr = table.getElementsByTagName("tr");
             for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[0];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-
-        function searchEmail() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("emailKey");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("users");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[1];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
-                }
-            }
-        }
-
-        function searchMobile() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("phoneKey");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("users");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[2];
+                td = tr[i].getElementsByTagName("td")[index];
                 if (td) {
                     txtValue = td.textContent || td.innerText;
                     if (txtValue.toUpperCase().indexOf(filter) > -1) {

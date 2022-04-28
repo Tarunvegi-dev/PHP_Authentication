@@ -20,7 +20,7 @@ if (isLoggedIn()) {
         <div class="card" style="padding: 40px; z-index: 3;">
             <h3 class="title" style="text-align: center;">User Registration</h3>
             <center>
-                <form onsubmit="return submitForm();" method="POST" action="Registration.php">
+                <form onsubmit="return submitForm();" method="POST" action="Registration.php" enctype="multipart/form-data">
                     <h6 style="font-family: Poppins;">Choose your Profile Picture</h6><br />
                     <div class="file-upload">
                         <img id="profile_img" name="profile" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png" style="cursor:pointer" height="180" width="180" />

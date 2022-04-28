@@ -20,13 +20,13 @@ function submitForm() {
         return false;
     }
     else if (validateEmail(email) === false) {
-        error = 'Email address is incorrect';
+        error = 'Email address is incorrect ( enter gmail only)';
         document.getElementById('email').focus();
         document.getElementById('errors').innerHTML = "<span style='color:red'>" + error + "</span>"
         return false;
     }
     else if (validateMobile(mobile) === false) {
-        error = 'Enter a valid mobile number';
+        error = 'Invalid mobile nummber (Include country code)';
         document.getElementById('mobile').focus();
         document.getElementById('errors').innerHTML = "<span style='color:red'>" + error + "</span>"
         return false;

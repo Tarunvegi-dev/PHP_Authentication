@@ -9,6 +9,10 @@
     margin-bottom: 50px;
 }
 
+span {
+    font-family: 'Poppins';
+}
+
 .login .title {
     font-family: 'Montserrat', sans-serif;
     font-size: 30px;

@@ -28,20 +28,21 @@ if (!isLoggedIn()) {
 		</div>
 		<div class="col" style="float: right;">
 			<center>
-				<h2 style="margin-top: 200px; font-family: Poppins;">WELCOME</h2>
-				<?php if (isset($_SESSION['user'])) : ?>
-					<br />
-					<h1 style="font-family: Poppins; font-size:80px; text-transform: capitalize;"><?php echo $_SESSION['user']['firstname'];
-																										echo "    ";
-																										echo $_SESSION['user']['lastname'] ?></h1><br /><br />
-					<strong style="font-family: Poppins; font-size:30px"><i class="fa-solid fa-envelope"></i> &nbsp;<?php echo $_SESSION['user']['email']; ?></strong><br /><br />
-					<strong style="font-family: Poppins; font-size:30px"><i class="fa-solid fa-phone"></i>&nbsp;<?php echo $_SESSION['user']['mobile']; ?></strong>
-					<small>
-						<br /><br /><br />
-						<a href="index.php?logout='1'" class="btn btn-danger"><i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp;LOGOUT</a>
-					</small>
-
-				<?php endif ?>
+				<h2 style="margin-top: 150px; font-family: Poppins;">WELCOME</h2>
+				<br />
+				<h1 style="font-family: Poppins; font-size:80px; text-transform: capitalize;"><?php echo $_SESSION['user']['firstname'];
+																								echo "    ";
+																								echo $_SESSION['user']['lastname'] ?></h1>
+				<div style="display: flex; justify-content: center; padding: 40px;">
+						<?php echo '<img src="data:image/png;base64, ' . base64_encode($_SESSION['user']['profile']) . '" height="200" width="250" style="border-radius:25px"' ?>;<br />
+				</div>
+				<strong style="font-family: Poppins; font-size:25px">Your Email:&nbsp;&nbsp;<i class="fa-solid fa-envelope"></i> &nbsp;<?php echo $_SESSION['user']['email']; ?></strong><br /><br />
+				<strong style="font-family: Poppins; font-size:25px">Your Phone: &nbsp;&nbsp;<i class="fa-solid fa-phone"></i>&nbsp;<?php echo $_SESSION['user']['mobile']; ?></strong><br/><br/>
+				<strong style="font-family: Poppins; font-size:25px">Gender: &nbsp;&nbsp;<i class="fa-solid fa-user"></i>&nbsp;<?php echo $_SESSION['user']['gender']; ?></strong>
+				<small>
+					<br /><br /><br />
+					<a href="index.php?logout='1'" class="btn btn-danger"><i class="fa-solid fa-arrow-right-from-bracket"></i>&nbsp;LOGOUT</a>
+				</small>
 			</center>
 		</div>
 	</div>

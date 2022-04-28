@@ -32,7 +32,7 @@ function register()
     $mobile = e($_POST['mobile']);
     $password = e($_POST['password']);
     $gender = e($_POST['gender']);
-    $profile = $_POST['image'];
+    $profile = addslashes(file_get_contents($_FILES['image']['tmp_name'])); 
 
     $userId = getUserByEmail($email);
     if (isset($userId)) {
@@ -47,7 +47,6 @@ function register()
         $_SESSION['user'] = getUserByEmail($email); // put logged in user in session
         $_SESSION['success']  = "You are now logged in";
         sendMail($firstname, $lastname, $email);
-        header('location: index.php');
         echo '<script>alert("Registration Successful")</script>';
         
     }
@@ -89,7 +88,6 @@ function login()
     $password = e($_POST['password']);
 
     $userId = getUserByEmail($email);
-
 
     $query = "SELECT * FROM users WHERE email='$email' AND password='$password' LIMIT 1";
     $results = mysqli_query($db, $query);   
