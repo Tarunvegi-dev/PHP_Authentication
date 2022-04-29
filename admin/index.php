@@ -19,7 +19,7 @@ if (!isLoggedIn()) {
     <center>
         <?php
 
-        $per_page_record = 2;  // Number of entries to show in a page.   
+        $per_page_record = 5;  // Number of entries to show in a page.   
         // Look for a GET variable page if not found default is 1.        
         if (isset($_GET["page"])) {
             $page  = $_GET["page"];
@@ -28,8 +28,15 @@ if (!isLoggedIn()) {
         }
 
         $start_from = ($page - 1) * $per_page_record;
-        $_SESSION['sort'] = 'firstname';
-        $sort = $_SESSION['sort'];
+
+        if (isset($_POST['sortBy'])) {
+            $_SESSION['sort'] = $_POST['sortBy'];
+        }
+
+        $sort = 'firstname';
+        if (isset($_SESSION['sort'])) {
+            $sort = $_SESSION['sort'];
+        }
         $db = mysqli_connect('localhost', 'root', '', 'multi_login');
         $query = "SELECT * FROM users  ORDER BY $sort LIMIT $start_from, $per_page_record";
         $rs_result = mysqli_query($db, $query);
@@ -47,28 +54,39 @@ if (!isLoggedIn()) {
                 </div>
                 <br /><br />
                 <div style="margin-bottom: 80px; padding-bottom:60px; padding-top: 20px; background: #000000; border-radius: 10px;">
-                    <div class="col-sm-3">
-                        <input type="text" id="nameKey" onkeyup="search(this, 0)" placeholder="Search for names" class="form-control col-sm-3"><br /><br />
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="text" id="emailKey" onkeyup="search(this, 1)" placeholder="Search for emails" class="form-control col-sm-3"><br /><br />
-                    </div>
-                    <div class="col-sm-3">
-                        <input type="text" id="phoneKey" onkeyup="search(this, 2)" placeholder="Search for mobile numbers" class="form-control col-sm-3"><br /><br />
-                    </div>
-                    <div class="col-sm-3">
-                        <select class="form-control col-sm-3">
-                            <option>Sort by</option>
-                            <option>Full name</option>
-                            <option>Email</option>
-                            <option>Mobile</option>
-                        </select>
-                    </div>
+                    <center>
+                        <div class="col-sm-2 col-sm-offset-1">
+                            <input type="text" id="fnameKey" oninput="search(this, 0)" placeholder="Search by first name" class="form-control"><br /><br />
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" id="lnameKey" oninput="search(this, 1)" placeholder="Search by last name" class="form-control"><br /><br />
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" id="emailKey" oninput="search(this, 2)" placeholder="Search for emails" class="form-control"><br /><br />
+                        </div>
+                        <div class="col-sm-2">
+                            <input type="text" id="phoneKey" oninput="search(this, 3)" placeholder="Search for mobile numbers" class="form-control"><br /><br />
+                        </div>
+                        <div class="col-sm-2">
+                            <form action="./index.php" method='post' id="sortForm">
+                                <div class="input-group">
+                                    <select class="form-control" onchange="handleSort()" aria-label="Default select example" name="sortBy" id="sortBy">
+                                        <option disabled selected>sort By :</option>
+                                        <option value="firstname">First name</option>
+                                        <option value="lastname">Last name</option>
+                                        <option value="email">Email</option>
+                                        <option value="mobile">Mobile</option>
+                                    </select>
+                                </div>
+                            </form>
+                        </div>
+                    </center>
                 </div>
                 <table id="users" class="table table-striped table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th width="10%">Full Name</th>
+                            <th width="10%">First Name</th>
+                            <th width="10%">Last Name</th>
                             <th>Email</th>
                             <th>Mobile</th>
                             <th>Gender</th>
@@ -81,9 +99,8 @@ if (!isLoggedIn()) {
                             // Display each field of the records.    
                         ?>
                             <tr>
-                                <td><?php echo $row["firstname"];
-                                    echo " ";
-                                    echo $row['lastname'] ?></td>
+                                <td><?php echo $row["firstname"]; ?></td>
+                                <td><?php echo $row['lastname'] ?></td>
                                 <td name="email"><?php echo $row["email"]; ?></td>
                                 <td><?php echo $row["mobile"]; ?></td>
                                 <td><?php echo $row["gender"]; ?></td>
@@ -235,7 +252,7 @@ if (!isLoggedIn()) {
                             </select>
                         </div><br />
                         <div class="form-group">
-                            <input type="text" class="form-control" id="_password" name="_password" placeholder="Password" required>
+                            <input type="password" class="form-control" id="_password" name="_password" placeholder="Password" required>
                         </div><br />
                         <div id="error"></div>
                     </div>
@@ -272,7 +289,7 @@ if (!isLoggedIn()) {
     <script>
         function search(input, index) {
             var filter, table, tr, td, i, txtValue;
-            filter = input.target.value.toUpperCase();
+            filter = input.value.toUpperCase();
             table = document.getElementById("users");
             tr = table.getElementsByTagName("tr");
             for (i = 0; i < tr.length; i++) {
@@ -305,6 +322,10 @@ if (!isLoggedIn()) {
             var page = document.getElementById("page").value;
             page = ((page > <?php echo $total_pages; ?>) ? <?php echo $total_pages; ?> : ((page < 1) ? 1 : page));
             window.location.href = 'index.php?page=' + page;
+        }
+
+        function handleSort() {
+            document.getElementById('sortForm').submit();
         }
     </script>
 </body>
